@@ -1,0 +1,31 @@
+[
+  {
+    "name": "$working",
+    "world": {
+      "scenes": [
+        {
+          "controls": [
+            {
+              "controlID": "reacts_smile",
+              "kind": "generic"
+            },
+            {
+              "controlID": "reacts_cry",
+              "kind": "generic"
+            },
+            {
+              "controlID": "reacts_heart",
+              "kind": "generic"
+            },
+            {
+              "controlID": "reacts_laugh",
+              "kind": "generic"
+            }
+          ],
+          "sceneID": "default"
+        }
+      ]
+    },
+    "savedAt": 1527130933331
+  }
+]
