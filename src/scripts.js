@@ -80,6 +80,7 @@ window.addEventListener('load', function initMixer() {
   }
 
   var draggableEl, isOverlapping, magnet, move, moveMagnet, moveToPos, onTouchEnd, onTouchStart;
+  var clickTimeout;
 
   draggableEl = document.querySelector('[data-drag]');
 
@@ -99,6 +100,9 @@ window.addEventListener('load', function initMixer() {
   };
 
   move = function(event) {
+    if (!isDragging) {
+      return;
+    }
     var el, elRect, mx, my, overlapping, touchPos, x, y;
     el = draggableEl;
     elRect = el.getBoundingClientRect();
@@ -125,6 +129,8 @@ window.addEventListener('load', function initMixer() {
   };
 
   onTouchStart = function(event) {
+    isDragging = false;
+    clearTimeout(clickTimeout);
     if (showing) {
       return;
     }
@@ -133,6 +139,7 @@ window.addEventListener('load', function initMixer() {
     rect = this.getBoundingClientRect();
     $('body').addClass('touching');
     $(this).removeClass('edge transition');
+    console.log(event, rect);
     this._touchOrigin = {
       x: event.pageX,
       y: event.pageY
@@ -141,9 +148,14 @@ window.addEventListener('load', function initMixer() {
       x: rect.left,
       y: rect.top
     };
+    console.log(this._posOrigin, this._touchOrigin);
+    clickTimeout = setTimeout(function() {
+      isDragging = true;
+    }, 400);
   };
 
   onTouchEnd = function(event) {
+    console.log(event);
     var el, halfScreen, rect, width, x;
     el = draggableEl;
     rect = el.getBoundingClientRect();
@@ -152,14 +164,13 @@ window.addEventListener('load', function initMixer() {
     if (!$(el).hasClass('overlap')) {
       $('body').removeClass('moving touching');
       x = rect.left + rect.width / 2 < halfScreen ? -10 : width + 10 - rect.width;
+      console.log(x);
       $(el).addClass('edge');
       moveToPos(x, rect.top);
       setTimeout((function() {
         $(el).removeClass('edge');
       }), 500);
     }
-    
-    isDragging = false;
   };
 
   $(draggableEl).on('touchstart mousedown', onTouchStart).on('touchmove drag', move).on('touchend mouseup', onTouchEnd);
