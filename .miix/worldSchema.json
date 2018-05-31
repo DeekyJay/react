@@ -6,6 +6,10 @@
         {
           "controls": [
             {
+              "controlID": "reacts_open",
+              "kind": "generic"
+            },
+            {
               "controlID": "reacts_smile",
               "kind": "generic"
             },
@@ -26,6 +30,6 @@
         }
       ]
     },
-    "savedAt": 1527531019461
+    "savedAt": 1527796476741
   }
 ]
