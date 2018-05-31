@@ -17,7 +17,7 @@
         "reorderEnabled": true,
         "title": "",
         "type": "stack",
-        "width": 25.40154669839379
+        "width": 34.78519556379248
       },
       {
         "activeItemIndex": 0,
@@ -29,7 +29,17 @@
             "title": "Controls",
             "type": "component",
             "width": 0.75
-          },
+          }
+        ],
+        "isClosable": true,
+        "reorderEnabled": true,
+        "title": "",
+        "type": "stack",
+        "width": 49.105001627789385
+      },
+      {
+        "activeItemIndex": 0,
+        "content": [
           {
             "componentName": "ControlsConsole",
             "isClosable": true,
@@ -38,11 +48,12 @@
             "type": "component"
           }
         ],
+        "header": {},
         "isClosable": true,
         "reorderEnabled": true,
         "title": "",
         "type": "stack",
-        "width": 74.59845330160613
+        "width": 16.10980280841809
       }
     ],
     "isClosable": true,

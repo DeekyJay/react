@@ -15,14 +15,6 @@ window.addEventListener('load', function initMixer() {
 
   var showing = false;
   var isDragging = false;
-  var dateDown, dateUp;
-  elIcon.onclick = function (ev) {
-    showing = !showing;
-    toggle(elSmile, showing);
-    toggle(elCry, showing);
-    toggle(elHeart, showing);
-    toggle(elLaugh, showing);
-  }
   
   elSmile.onclick = function (ev) {
     mixer.socket.call('giveInput', {
@@ -46,6 +38,7 @@ window.addEventListener('load', function initMixer() {
   };
 
   elLaugh.onclick = function (ev) {
+    if (showing) return;
     mixer.socket.call('giveInput', {
       controlID: 'reacts_laugh',
       event: 'click'
@@ -75,12 +68,12 @@ window.addEventListener('load', function initMixer() {
     console.log(control.controlID, data[control.controlID]);
   }
 
-  function toggle (element, flag, side = 'right') { 
-    element.setAttribute('class', flag ? `option show ${side}` : 'option');
+  function toggle (element, flag, side = '') { 
+    element.setAttribute('class', flag ? `option show ${rightSide ? 'left' : 'right'}` : 'option');
   }
 
   var draggableEl, isOverlapping, magnet, move, moveMagnet, moveToPos, onTouchEnd, onTouchStart;
-  var clickTimeout;
+  var rightSide = false;
 
   draggableEl = document.querySelector('[data-drag]');
 
@@ -100,14 +93,18 @@ window.addEventListener('load', function initMixer() {
   };
 
   move = function(event) {
-    if (!isDragging) {
+    console.log(event.screenX, event.screenY);
+    var diffX = Math.abs(this._touchOrigin.x - event.screenX);
+    var diffY = Math.abs(this._touchOrigin.y - event.screenY);
+    if (diffX < 5 && diffY < 5 && !isDragging) {
       return;
     }
+    isDragging = true;
     var el, elRect, mx, my, overlapping, touchPos, x, y;
     el = draggableEl;
     elRect = el.getBoundingClientRect();
-    x = this._posOrigin.x + event.pageX - this._touchOrigin.x;
-    y = this._posOrigin.y + event.pageY - this._touchOrigin.y;
+    x = this._posOrigin.x + event.screenX - this._touchOrigin.x;
+    y = this._posOrigin.y + event.screenY - this._touchOrigin.y;
     $('body').addClass('moving');
     touchPos = {
       top: y,
@@ -129,33 +126,40 @@ window.addEventListener('load', function initMixer() {
   };
 
   onTouchStart = function(event) {
+    console.log(event.screenX, event.screenY);
     isDragging = false;
-    clearTimeout(clickTimeout);
     if (showing) {
       return;
     }
-    dateDown = Date.now();
     var rect;
     rect = this.getBoundingClientRect();
     $('body').addClass('touching');
     $(this).removeClass('edge transition');
-    console.log(event, rect);
     this._touchOrigin = {
-      x: event.pageX,
-      y: event.pageY
+      x: event.screenX,
+      y: event.screenY
     };
     this._posOrigin = {
       x: rect.left,
       y: rect.top
     };
-    console.log(this._posOrigin, this._touchOrigin);
-    clickTimeout = setTimeout(function() {
-      isDragging = true;
-    }, 400);
   };
-
+ 
   onTouchEnd = function(event) {
-    console.log(event);
+    console.log(event.screenX, event.screenY);
+    var isBody = event.currentTarget.localName === 'body';
+    if (!isDragging) {
+      if (isBody || (showing && event.target.id)) {
+        return;
+      }
+      showing = !showing;
+      toggle(elSmile, showing);
+      toggle(elCry, showing);
+      toggle(elHeart, showing);
+      toggle(elLaugh, showing);
+      return;
+    }
+    isDragging = false;
     var el, halfScreen, rect, width, x;
     el = draggableEl;
     rect = el.getBoundingClientRect();
@@ -163,8 +167,12 @@ window.addEventListener('load', function initMixer() {
     halfScreen = width / 2;
     if (!$(el).hasClass('overlap')) {
       $('body').removeClass('moving touching');
-      x = rect.left + rect.width / 2 < halfScreen ? -10 : width + 10 - rect.width;
-      console.log(x);
+      x = rect.left + rect.width / 2 < halfScreen ? -20 : width + 5 - rect.width;
+      rightSide = x > 0;
+      toggle(elSmile, showing);
+      toggle(elCry, showing);
+      toggle(elHeart, showing);
+      toggle(elLaugh, showing);
       $(el).addClass('edge');
       moveToPos(x, rect.top);
       setTimeout((function() {
@@ -173,7 +181,13 @@ window.addEventListener('load', function initMixer() {
     }
   };
 
-  $(draggableEl).on('touchstart mousedown', onTouchStart).on('touchmove drag', move).on('touchend mouseup', onTouchEnd);
+  $(draggableEl)
+    .on('touchstart mousedown', onTouchStart)
+    .on('touchmove drag', move)
+    .on('touchend mouseup', onTouchEnd);
+
+  $("body")
+    .on('mouseleave', onTouchEnd);
 
   moveToPos($('body').width() / 2 - 30, 10);
 });
