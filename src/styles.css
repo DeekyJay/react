@@ -13,53 +13,44 @@ img {
   animation: pulse 2s infinite;
   position: absolute;
   right: 5px;
-  top: 5px;
+  top: 68px;
+  z-index: 1;
+}
+
+#options {
+  position: absolute;
+  top: 70px;
+  right: 30px;
 }
 
 .option {
-  display: none;
+  position: absolute;
+  opacity: 0.1;
+  top: 0;
+  left: -15px;
+  transition: all 0.5s;
 }
 
 .option.show {
-  display: block;
+  opacity: 1;
 }
 
-#smile.option.show.right {
-  top: -65px;
-  left: 35px;
-}
-
-#cry.option.show.right {
-  left: 35px;
-  top: 65px;
-}
-
-#heart.option.show.right {
-  left: 55px;
-  top: -22px;
-}
-
-#laugh.option.show.right {
-  left: 55px;
-  top: 22px;
-}
-
-#smile.option.show.left {
+.option.show#smile {
   top: -65px;
   left: -35px;
 }
 
-#cry.option.show.left {
+.option.show#cry {
   left: -35px;
   top: 65px;
 }
 
-#heart.option.show.left {
+.option.show#heart {
   left: -55px;
   top: -22px;
 }
 
-#laugh.option.show.left {
+.option.show#laugh {
   left: -55px;
   top: 22px;
 }

@@ -17,7 +17,7 @@
         "reorderEnabled": true,
         "title": "",
         "type": "stack",
-        "width": 26.30220053163398
+        "width": 13.844413795692448
       },
       {
         "activeItemIndex": 0,
@@ -35,7 +35,7 @@
         "reorderEnabled": true,
         "title": "",
         "type": "stack",
-        "width": 34.554915273340995
+        "width": 52.28928595142301
       },
       {
         "activeItemIndex": 0,
@@ -53,7 +53,7 @@
         "reorderEnabled": true,
         "title": "",
         "type": "stack",
-        "width": 39.14288419502498
+        "width": 33.86630025288452
       }
     ],
     "isClosable": true,
