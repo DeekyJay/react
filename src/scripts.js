@@ -201,7 +201,9 @@ $(function () {
     this.draw = function () {
       var i = new Image();
       i.src = img;
+      context.beginPath();
       context.drawImage(i, this.x - (this.size / 2), this.y, this.size, this.size);
+      context.fill();
       this.update();
     }
     this.update = function () {
