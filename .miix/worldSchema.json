@@ -4,32 +4,11 @@
     "world": {
       "scenes": [
         {
-          "controls": [
-            {
-              "controlID": "reacts_open",
-              "kind": "generic"
-            },
-            {
-              "controlID": "reacts_smile",
-              "kind": "generic"
-            },
-            {
-              "controlID": "reacts_cry",
-              "kind": "generic"
-            },
-            {
-              "controlID": "reacts_heart",
-              "kind": "generic"
-            },
-            {
-              "controlID": "reacts_laugh",
-              "kind": "generic"
-            }
-          ],
+          "controls": [],
           "sceneID": "default"
         }
       ]
     },
-    "savedAt": 1527796476741
+    "savedAt": 1527820579109
   }
 ]
